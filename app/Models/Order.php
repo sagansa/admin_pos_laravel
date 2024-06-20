@@ -43,11 +43,4 @@ class Order extends Model
         }
         return $totalPrice;
     }
-
-    protected $casts = [
-        'payment_method_id' => 'string',
-        'total_price' => 'string',
-        'paid_amount' => 'string',
-        'change_amount' => 'string',
-    ];
 }

@@ -11,6 +11,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::apiResource('products', ProductController::class)->middleware(['auth:sanctum']);
 Route::apiResource('orders', OrderController::class)->middleware(['auth:sanctum']);
 Route::apiResource('payment-methods', PaymentMethodController::class)->middleware(['auth:sanctum']);
+Route::get('products/barcode/{barcode}', [ProductController::class, 'showByBarcode'])->middleware(['auth:sanctum']);
+
 
 
 Route::get('/user', function (Request $request) {

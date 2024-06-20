@@ -271,7 +271,7 @@
                     }
                 },
                 "responses": {
-                    "201": {
+                    "200": {
                         "description": "Order created successfully",
                         "content": {
                             "application/json": {
@@ -1031,6 +1031,10 @@
                                         "type": "string",
                                         "example": "image.jpg"
                                     },
+                                    "barcode": {
+                                        "type": "string",
+                                        "example": "1213x1412"
+                                    },
                                     "description": {
                                         "type": "string",
                                         "example": "Product Description"
@@ -1090,6 +1094,10 @@
                                                 "image": {
                                                     "type": "string",
                                                     "example": "image.jpg"
+                                                },
+                                                "barcode": {
+                                                    "type": "string",
+                                                    "example": "1213x1412"
                                                 },
                                                 "description": {
                                                     "type": "string",
@@ -1200,6 +1208,10 @@
                                                     "type": "string",
                                                     "example": "image.jpg"
                                                 },
+                                                "barcode": {
+                                                    "type": "string",
+                                                    "example": "1213x1412"
+                                                },
                                                 "description": {
                                                     "type": "string",
                                                     "example": "Product Description"
@@ -1298,6 +1310,10 @@
                                         "type": "string",
                                         "example": "image.jpg"
                                     },
+                                    "barcode": {
+                                        "type": "string",
+                                        "example": "1213x1412"
+                                    },
                                     "description": {
                                         "type": "string",
                                         "example": "Updated Product Description"
@@ -1357,6 +1373,10 @@
                                                 "image": {
                                                     "type": "string",
                                                     "example": "image.jpg"
+                                                },
+                                                "barcode": {
+                                                    "type": "string",
+                                                    "example": "1213x1412"
                                                 },
                                                 "description": {
                                                     "type": "string",
@@ -1461,6 +1481,119 @@
                                         "data": {
                                             "type": "object",
                                             "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product not found"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products/barcode/{barcode}": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "summary": "Get product details by barcode",
+                "operationId": "607563fe45b77c81a945e845f977fd3f",
+                "parameters": [
+                    {
+                        "name": "barcode",
+                        "in": "path",
+                        "description": "Product barcode",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Product Name"
+                                                },
+                                                "slug": {
+                                                    "type": "string",
+                                                    "example": "product-name"
+                                                },
+                                                "category_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                },
+                                                "price": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 99.99
+                                                },
+                                                "is_active": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "image.jpg"
+                                                },
+                                                "barcode": {
+                                                    "type": "string",
+                                                    "example": "1213x1412"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Product Description"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"

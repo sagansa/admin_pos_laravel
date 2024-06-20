@@ -24,7 +24,7 @@ class ProductFavorite extends BaseWidget
             ->columns([
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('name')
-                    ->description(fn (Product $record): string => $record->category->name)
+                    ->description(fn (Product $record): string => ($record->category) ? $record->category->name : '-')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('order_products_count')
                     ->label('Dipesan') // Label untuk kolom jumlah pesanan

@@ -22,7 +22,7 @@ class ProductAlert extends BaseWidget
                 Tables\Columns\ImageColumn::make('image'),
                
                 Tables\Columns\TextColumn::make('name')
-                    ->description(fn (Product $record): string => $record->category->name)
+                    ->description(fn (Product $record): string => ($record->category) ? $record->category->name : '-')
                     ->searchable(),
                 Tables\Columns\BadgeColumn::make('stock')
                     ->label('Stok')

@@ -15,7 +15,7 @@ class ProductController extends Controller
      *     scheme="bearer",
      *     bearerFormat="JWT"
      * )
-     *
+     * 
      * @OA\Get(
      *     path="/api/products",
      *     summary="Get list of products",
@@ -46,7 +46,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-
+        
         return response()->json([
             'success' => true,
             'data' => $products,

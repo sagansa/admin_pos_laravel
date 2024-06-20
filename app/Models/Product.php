@@ -21,6 +21,7 @@ class Product extends Model
         'price',
         'is_active',
         'image',
+        'barcode',
         'description'
     ];
 
@@ -59,6 +60,5 @@ class Product extends Model
         'price' => 'integer',
         'stock' => 'integer',
         'is_active' => 'boolean',
-        'category_id' => 'string',
     ];
 }
