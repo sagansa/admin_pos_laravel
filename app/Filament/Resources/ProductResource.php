@@ -14,6 +14,7 @@ use Filament\Forms\Set;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Clusters\Products;
+use Illuminate\Validation\Rule;
 
 class ProductResource extends Resource
 {
@@ -50,6 +51,10 @@ class ProductResource extends Resource
                                         $set('slug', Product::generateUniqueSlug($state));
                                     })
                                     ->maxLength(255),
+                                Forms\Components\TextInput::make('barcode')
+                                    ->label('Barcode')
+                                    ->unique(ignoreRecord: true)
+                                    ->maxLength(255)
                                 ]),
                         Forms\Components\Section::make()
                             ->schema([
@@ -94,7 +99,7 @@ class ProductResource extends Resource
                 Tables\Columns\ImageColumn::make('image'),
                
                 Tables\Columns\TextColumn::make('name')
-                    ->description(fn (Product $record): string => $record->category->name)
+                    ->description(fn (Product $record): string => ($record->category) ? $record->category->name : '-')
                     ->searchable(),
                 Tables\Columns\BadgeColumn::make('stock')
                     ->label('Stok')
@@ -108,6 +113,9 @@ class ProductResource extends Resource
                             return 'success';
                         }
                     })
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('barcode')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('price')
                     ->money('Rp.')
@@ -155,4 +163,6 @@ class ProductResource extends Resource
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
+
+    
 }

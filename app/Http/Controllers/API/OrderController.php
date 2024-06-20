@@ -99,7 +99,7 @@ class OrderController extends Controller
  *         )
  *     ),
  *     @OA\Response(
- *         response=201,
+ *         response=200,
  *         description="Order created successfully",
  *         @OA\JsonContent(
  *             @OA\Property(property="success", type="boolean", example=true),
@@ -192,7 +192,8 @@ class OrderController extends Controller
         return response()->json([
             'success' => true,
             'data' => $order,
-        ], 201);
+            'message' => 'Order created successfully',
+        ], 200);
     }
 
     /**

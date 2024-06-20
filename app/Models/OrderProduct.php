@@ -32,4 +32,10 @@ class OrderProduct extends Model
     {
         return $this->product ? $this->product->name : null;
     }
+
+    protected $casts = [
+        'product_id' => 'string',
+        'quantity' => 'string',
+        'unit_price' => 'string',
+    ];
 }

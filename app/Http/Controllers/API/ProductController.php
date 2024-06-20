@@ -15,7 +15,7 @@ class ProductController extends Controller
      *     scheme="bearer",
      *     bearerFormat="JWT"
      * )
-     * 
+     *
      * @OA\Get(
      *     path="/api/products",
      *     summary="Get list of products",
@@ -46,7 +46,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        
+
         return response()->json([
             'success' => true,
             'data' => $products,
@@ -70,6 +70,7 @@ class ProductController extends Controller
      *             @OA\Property(property="price", type="number", format="float", example=99.99),
      *             @OA\Property(property="is_active", type="boolean", example=true),
      *             @OA\Property(property="image", type="string", example="image.jpg"),
+     *             @OA\Property(property="barcode", type="string", example="1213x1412"),
      *             @OA\Property(property="description", type="string", example="Product Description")
      *         )
      *     ),
@@ -88,6 +89,7 @@ class ProductController extends Controller
      *                 @OA\Property(property="price", type="number", format="float", example=99.99),
      *                 @OA\Property(property="is_active", type="boolean", example=true),
      *                 @OA\Property(property="image", type="string", example="image.jpg"),
+     *                 @OA\Property(property="barcode", type="string", example="1213x1412"),
      *                 @OA\Property(property="description", type="string", example="Product Description")
      *             )
      *         )
@@ -112,6 +114,7 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'is_active' => 'boolean',
             'image' => 'string',
+            'barcode' => 'string',
             'description' => 'string',
         ]);
 
@@ -131,6 +134,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'is_active' => $request->is_active ?? true,
             'image' => $request->image ?? null,
+            'barcode' => $request->barcode ?? null,
             'description' => $request->description ?? null,
         ]);
 
@@ -168,6 +172,7 @@ class ProductController extends Controller
      *                 @OA\Property(property="price", type="number", format="float", example=99.99),
      *                 @OA\Property(property="is_active", type="boolean", example=true),
      *                 @OA\Property(property="image", type="string", example="image.jpg"),
+     *                 @OA\Property(property="barcode", type="string", example="1213x1412"),
      *                 @OA\Property(property="description", type="string", example="Product Description")
      *             )
      *         )
@@ -224,6 +229,7 @@ class ProductController extends Controller
      *             @OA\Property(property="price", type="number", format="float", example=99.99),
      *             @OA\Property(property="is_active", type="boolean", example=true),
      *             @OA\Property(property="image", type="string", example="image.jpg"),
+     *             @OA\Property(property="barcode", type="string", example="1213x1412"),
      *             @OA\Property(property="description", type="string", example="Updated Product Description")
      *         )
      *     ),
@@ -242,6 +248,7 @@ class ProductController extends Controller
      *                 @OA\Property(property="price", type="number", format="float", example=99.99),
      *                 @OA\Property(property="is_active", type="boolean", example=true),
      *                 @OA\Property(property="image", type="string", example="image.jpg"),
+     *                 @OA\Property(property="barcode", type="string", example="1213x1412"),
      *                 @OA\Property(property="description", type="string", example="Updated Product Description")
      *             )
      *         )
@@ -285,6 +292,7 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'is_active' => 'boolean',
             'image' => 'string',
+            'bardoce' => 'string',
             'description' => 'string',
         ]);
 
@@ -304,6 +312,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'is_active' => $request->is_active ?? true,
             'image' => $request->image ?? null,
+            'bardoce' => $request->barcode ?? null,
             'description' => $request->description ?? null,
         ]);
 
@@ -367,4 +376,67 @@ class ProductController extends Controller
             'data' => null,
         ]);
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/products/barcode/{barcode}",
+     *     summary="Get product details by barcode",
+     *     tags={"products"},
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Parameter(
+     *         name="barcode",
+     *         in="path",
+     *         description="Product barcode",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="name", type="string", example="Product Name"),
+     *                 @OA\Property(property="slug", type="string", example="product-name"),
+     *                 @OA\Property(property="category_id", type="integer", example=1),
+     *                 @OA\Property(property="quantity", type="integer", example=100),
+     *                 @OA\Property(property="price", type="number", format="float", example=99.99),
+     *                 @OA\Property(property="is_active", type="boolean", example=true),
+     *                 @OA\Property(property="image", type="string", example="image.jpg"),
+     *                 @OA\Property(property="barcode", type="string", example="1213x1412"),
+     *                  @OA\Property(property="image_url", type="string", example="http://example.com/storage/image.jpg"),
+     *                 @OA\Property(property="description", type="string", example="Product Description")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Product not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Product not found"),
+     *             @OA\Property(property="data", type="object", example=null)
+     *         )
+     *     )
+     * )
+     */
+    public function showByBarcode($barcode)
+    {
+        $product = Product::where('barcode', $barcode)->first();
+
+        if (!$product) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Product not found',
+                'data' => null,
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $product,
+        ]);
+    }
+
 }
