@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ExpenseResource\Pages;
-use App\Filament\Resources\ExpenseResource\RelationManagers;
-use App\Models\Expense;
+use App\Filament\Resources\SettingResource\Pages;
+use App\Filament\Resources\SettingResource\RelationManagers;
+use App\Models\Setting;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,16 +12,16 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
-class ExpenseResource extends Resource
+class SettingResource extends Resource
 {
-    protected static ?string $model = Expense::class;
+    protected static ?string $model = Setting::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-currency-dollar';
+    protected static ?string $navigationIcon = 'heroicon-c-pencil-square';
+
 
     protected static ?string $navigationGroup = 'Others';
-    protected static ?int $navigationSort = 100;
+    protected static ?int $navigationSort = 102;
 
     public static function form(Form $form): Form
     {
@@ -31,21 +31,27 @@ class ExpenseResource extends Resource
                     ->schema([
                         Forms\Components\Section::make()
                             ->schema([
-                                Forms\Components\TextInput::make('name')
+                                Forms\Components\TextInput::make('shop')
+                                    ->label('Nama Toko')
                                     ->required()
                                     ->maxLength(255),
-                                Forms\Components\Textarea::make('notes')
+                            
+                                Forms\Components\TextInput::make('phone')
+                                    ->label('Telepon')
                                     ->required()
-                                    ->columnSpanFull(),
-                                Forms\Components\DatePicker::make('date_expense')
-                                    ->required(),
-                                Forms\Components\TextInput::make('amount')
+                                    ->maxLength(255),
+                            ])
+                ]),
+                Forms\Components\Group::make()
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\Textarea::make('address')
+                                    ->label('Alamat')
                                     ->required()
-                                    ->rule('min:1')
-                                    ->numeric(),
+                                    ->maxLength(255),
                             ])
                     ])
-                
             ]);
     }
 
@@ -53,13 +59,15 @@ class ExpenseResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('shop')
+                    ->label('Nama Toko')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('date_expense')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('amount')
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('phone')
+                    ->label('Telepon')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('address')
+                    ->label('Alamat')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -78,7 +86,6 @@ class ExpenseResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                    ExportBulkAction::make()
                 ]),
             ]);
     }
@@ -90,12 +97,17 @@ class ExpenseResource extends Resource
         ];
     }
 
+    public static function canCreate(): bool
+    {
+        return Setting::count() < 1;
+    }
+
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListExpenses::route('/'),
-            'create' => Pages\CreateExpense::route('/create'),
-            'edit' => Pages\EditExpense::route('/{record}/edit'),
+            'index' => Pages\ListSettings::route('/'),
+            'create' => Pages\CreateSetting::route('/create'),
+            'edit' => Pages\EditSetting::route('/{record}/edit'),
         ];
     }
 }

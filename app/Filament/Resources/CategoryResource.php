@@ -14,6 +14,7 @@ use Filament\Forms\Set;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Clusters\Products;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class CategoryResource extends Resource
 {
@@ -51,18 +52,14 @@ class CategoryResource extends Resource
                                 ])
                             ]),
                     Forms\Components\Group::make()
-                    ->schema([
-                        Forms\Components\Section::make()
-                            ->schema([
-                                Forms\Components\Textarea::make('description')
-                                ->columnSpanFull(),
-                            ])
+                        ->schema([
+                            Forms\Components\Section::make()
+                                ->schema([
+                                    Forms\Components\Textarea::make('description')
+                                    ->columnSpanFull(),
+                                ])
 
-                    ])
-               
-               
-               
-               
+                        ])
             ]);
     }
 
@@ -70,6 +67,9 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->label("ID")
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
@@ -98,6 +98,7 @@ class CategoryResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    ExportBulkAction::make()
                 ]),
             ]);
     }

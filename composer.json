@@ -15,6 +15,7 @@
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "maatwebsite/excel": "^3.1",
         "psr/simple-cache": "^2.0",
         "pxlrbt/filament-excel": "^2.3",
         "qruto/laravel-flora": "^1.2"

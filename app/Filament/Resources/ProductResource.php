@@ -96,11 +96,16 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
+               
                 Tables\Columns\ImageColumn::make('image'),
                
                 Tables\Columns\TextColumn::make('name')
                     ->description(fn (Product $record): string => ($record->category) ? $record->category->name : '-')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('id')->label('SKU/ID'),
+                Tables\Columns\TextColumn::make('barcode')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\BadgeColumn::make('stock')
                     ->label('Stok')
                     ->numeric()
@@ -114,9 +119,7 @@ class ProductResource extends Resource
                         }
                     })
                     ->sortable(),
-                Tables\Columns\TextColumn::make('barcode')
-                    ->searchable()
-                    ->sortable(),
+                
                 Tables\Columns\TextColumn::make('price')
                     ->money('Rp.')
                     ->sortable(),
@@ -163,6 +166,4 @@ class ProductResource extends Resource
             'edit' => Pages\EditProduct::route('/{record}/edit'),
         ];
     }
-
-    
 }

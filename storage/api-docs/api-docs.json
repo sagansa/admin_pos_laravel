@@ -1588,6 +1588,10 @@
                                                     "type": "string",
                                                     "example": "1213x1412"
                                                 },
+                                                "image_url": {
+                                                    "type": "string",
+                                                    "example": "http://example.com/storage/image.jpg"
+                                                },
                                                 "description": {
                                                     "type": "string",
                                                     "example": "Product Description"
@@ -1618,6 +1622,76 @@
                                         "data": {
                                             "type": "object",
                                             "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/setting": {
+            "get": {
+                "tags": [
+                    "setting"
+                ],
+                "summary": "Get setting",
+                "operationId": "5c5677ff6220ad5806ddc4de8c334906",
+                "responses": {
+                    "200": {
+                        "description": "Get the setting",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "shop": {
+                                                    "type": "string"
+                                                },
+                                                "address": {
+                                                    "type": "string"
+                                                },
+                                                "phone": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Setting not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "nullable": true
                                         }
                                     },
                                     "type": "object"
